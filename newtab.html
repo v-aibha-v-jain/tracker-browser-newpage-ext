@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Tracker</title>
+    <link rel="stylesheet" href="styles/newtab.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Task Tracker</h1>
+        <p class="subtitle">Track your daily habits</p>
+      </header>
+
+      <nav class="tabs">
+        <button class="tab-btn active" data-tab="main">Main</button>
+        <button class="tab-btn" data-tab="analysis">Analysis</button>
+        <button class="tab-btn" data-tab="filter">Filter</button>
+        <button class="tab-btn" data-tab="edit">Edit</button>
+      </nav>
+
+      <div id="main-tab" class="tab-content active">
+        <div class="table-wrapper">
+          <table id="task-table">
+            <thead>
+              <tr id="header-row">
+                <th class="date-column">Date</th>
+              </tr>
+              <tr id="consistency-row">
+                <th class="consistency-label">Consistency</th>
+              </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="analysis-tab" class="tab-content">
+        <h2>Analysis</h2>
+        <div class="analysis-section">
+          <div class="stat-card">
+            <h3>Overall Completion</h3>
+            <div class="stat-value" id="overall-completion">0%</div>
+          </div>
+          <div class="stat-card">
+            <h3>Current Streak</h3>
+            <div class="stat-value" id="current-streak">0 days</div>
+          </div>
+          <div class="stat-card">
+            <h3>Total Days</h3>
+            <div class="stat-value" id="total-days">0</div>
+          </div>
+          <div class="stat-card">
+            <h3>Best Task</h3>
+            <div class="stat-value" id="best-task">-</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="filter-tab" class="tab-content">
+        <h2>Filter</h2>
+        <div class="filter-section">
+          <div class="filter-group">
+            <label>Date Range</label>
+            <input type="date" id="filter-start-date" />
+            <span>to</span>
+            <input type="date" id="filter-end-date" />
+          </div>
+          <div class="filter-group">
+            <label>Minimum Completion</label>
+            <input
+              type="range"
+              id="min-completion"
+              min="0"
+              max="100"
+              value="0"
+            />
+            <span id="min-completion-value">0%</span>
+          </div>
+          <div class="filter-group">
+            <label>Show Tasks</label>
+            <div id="task-filter-list"></div>
+          </div>
+          <button id="apply-filter-btn" class="btn primary">
+            Apply Filter
+          </button>
+          <button id="reset-filter-btn" class="btn secondary">Reset</button>
+        </div>
+      </div>
+
+      <div id="edit-tab" class="tab-content">
+        <h2>Edit Tasks</h2>
+        <div class="edit-section">
+          <div class="task-list" id="edit-task-list"></div>
+          <div class="add-task-form">
+            <input
+              type="text"
+              id="new-task-input"
+              placeholder="New task name"
+            />
+            <button id="add-task-btn" class="btn primary">Add Task</button>
+          </div>
+          <button id="save-tasks-btn" class="btn primary">Save Changes</button>
+          <button id="clear-data-btn" class="btn danger">Clear All Data</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="scripts/newtab.js"></script>
+  </body>
+</html>

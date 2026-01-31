@@ -1,0 +1,406 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background: #ffffff;
+  color: #000000;
+  min-height: 100vh;
+  padding: 0;
+}
+
+.container {
+  max-width: 1600px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 40px;
+  color: #000000;
+  border-bottom: 3px solid #000000;
+  padding-bottom: 20px;
+}
+
+header h1 {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #666666;
+}
+
+.tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 30px;
+  background: transparent;
+  padding: 0;
+  border-bottom: 2px solid #000000;
+}
+
+.tab-btn {
+  padding: 15px 30px;
+  border: none;
+  background: transparent;
+  color: #000000;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 0;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
+  margin-bottom: -2px;
+}
+
+.tab-btn:hover {
+  background: #f5f5f5;
+}
+
+.tab-btn.active {
+  background: transparent;
+  color: #000000;
+  border-bottom: 3px solid #000000;
+}
+
+.tab-content {
+  display: none;
+  background: #ffffff;
+  padding: 30px 0;
+  min-height: 400px;
+}
+
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+.tab-content h2 {
+  margin-bottom: 25px;
+  color: #000000;
+  font-size: 24px;
+  border-bottom: 2px solid #000000;
+  padding-bottom: 15px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  max-height: 600px;
+  overflow-y: auto;
+  border: 1px solid #000000;
+}
+
+#task-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: #ffffff;
+}
+
+#task-table th,
+#task-table td {
+  padding: 12px 10px;
+  text-align: center;
+  border: 1px solid #cccccc;
+}
+
+#task-table th {
+  background: #000000;
+  color: #ffffff;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.date-column {
+  min-width: 120px;
+  text-align: left;
+  font-weight: 600;
+  background: #000000;
+  color: #ffffff;
+}
+
+.consistency-label {
+  background: #333333 !important;
+  text-align: left;
+  color: #ffffff;
+}
+
+#consistency-row th {
+  background: #333333;
+  font-size: 12px;
+  color: #ffffff;
+}
+
+.consistency-value {
+  font-weight: 700;
+  color: #000000;
+  background: #f9f9f9;
+}
+
+.completion-cell {
+  text-align: center;
+  font-weight: 700;
+  color: #000000;
+}
+
+.task-checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #000000;
+}
+
+.analysis-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.stat-card {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 0;
+  color: #000000;
+  text-align: center;
+  border: 2px solid #000000;
+}
+
+.stat-card h3 {
+  font-size: 14px;
+  margin-bottom: 15px;
+  color: #666666;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.stat-value {
+  font-size: 36px;
+  font-weight: 700;
+  color: #000000;
+}
+
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-group label {
+  font-weight: 600;
+  color: #000000;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.filter-group input[type="date"],
+.filter-group input[type="text"] {
+  padding: 10px;
+  border: 2px solid #000000;
+  border-radius: 0;
+  font-size: 14px;
+}
+
+.filter-group input[type="range"] {
+  width: 100%;
+  height: 6px;
+  cursor: pointer;
+}
+
+#task-filter-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+  border: 1px solid #cccccc;
+}
+
+.filter-task-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.filter-task-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #000000;
+}
+
+.edit-section {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border: 1px solid #cccccc;
+  padding: 20px;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #ffffff;
+  border-radius: 0;
+  border: 1px solid #cccccc;
+}
+
+.task-item input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #000000;
+  border-radius: 0;
+  font-size: 14px;
+}
+
+.task-item button {
+  padding: 8px 15px;
+  background: #ff0000;
+  color: white;
+  border: 1px solid #ff0000;
+  border-radius: 0;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.task-item button:hover {
+  background: #cc0000;
+  border-color: #cc0000;
+}
+
+.add-task-form {
+  display: flex;
+  gap: 10px;
+}
+
+#new-task-input {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid #000000;
+  border-radius: 0;
+  font-size: 14px;
+}
+
+.btn {
+  padding: 12px 24px;
+  border: 2px solid #000000;
+  border-radius: 0;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+}
+
+.btn.primary {
+  background: #000000;
+  color: #ffffff;
+}
+
+.btn.primary:hover {
+  background: #333333;
+  border-color: #333333;
+}
+
+.btn.secondary {
+  background: #ffffff;
+  color: #000000;
+}
+
+.btn.secondary:hover {
+  background: #f0f0f0;
+}
+
+.btn.danger {
+  background: #ff0000;
+  color: #ffffff;
+  border-color: #ff0000;
+}
+
+.btn.danger:hover {
+  background: #cc0000;
+  border-color: #cc0000;
+}
+
+tbody tr {
+  transition: background 0.2s ease;
+}
+
+tbody tr:hover {
+  background: #f5f5f5;
+}
+
+tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+
+tbody tr:nth-child(even):hover {
+  background: #f0f0f0;
+}
+
+.table-wrapper::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: #000000;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #333333;
+}
+
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 32px;
+  }
+
+  .tabs {
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    padding: 12px 20px;
+    font-size: 13px;
+  }
+
+  .analysis-section {
+    grid-template-columns: 1fr;
+  }
+
+  #task-table th,
+  #task-table td {
+    padding: 10px 8px;
+    font-size: 13px;
+  }
+}
