@@ -7,6 +7,11 @@ let filterSettings = {
     selectedTasks: []
 };
 
+let notesFilter = {
+    date: '',
+    task: 'all'
+};
+
 function clearDialog() {
     const existingDialog = document.getElementById('custom-dialog');
     const existingOverlay = document.getElementById('dialog-overlay');
@@ -168,6 +173,85 @@ function showNoteDialog(message, initialNote, callback) {
     document.body.appendChild(dialog);
 }
 
+function showNoteViewDialog(title, date, task, note) {
+    clearDialog();
+
+    const dialog = document.createElement('div');
+    dialog.id = 'custom-dialog';
+    dialog.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        border: 2px solid #000000;
+        padding: 20px;
+        border-radius: 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 10000;
+        min-width: 75vw;
+        max-width: 90vw;
+        max-height: 70vh;
+        text-align: left;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    `;
+
+    const header = document.createElement('div');
+    header.style.cssText = 'font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; color: #666666;';
+    header.textContent = title;
+    dialog.appendChild(header);
+
+    const content = document.createElement('textarea');
+    content.value = note || '';
+    content.rows = 10;
+    content.style.cssText = 'width: 100%; border: 2px solid #000000; padding: 10px; resize: vertical; font-size: 13px; color: #000000; background: #ffffff;';
+    dialog.appendChild(content);
+
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = 'display: flex; justify-content: flex-end;';
+
+    const saveBtn = document.createElement('button');
+    saveBtn.textContent = 'Save';
+    saveBtn.style.cssText = 'padding: 10px 25px; background: #000000; color: white; border: 2px solid #000000; cursor: pointer; font-weight: 600; font-size: 13px;';
+    saveBtn.addEventListener('click', () => {
+        const updated = content.value.trim();
+        setTaskEntry(date, task, getTaskEntry(date, task).done, updated);
+        saveData();
+        renderTable();
+        updateNotesTab();
+        clearDialog();
+    });
+
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = 'Cancel';
+    cancelBtn.style.cssText = 'padding: 10px 25px; background: white; color: #000000; border: 2px solid #000000; cursor: pointer; font-weight: 600; font-size: 13px; margin-left: 8px;';
+    cancelBtn.addEventListener('click', () => {
+        clearDialog();
+    });
+
+    buttonContainer.appendChild(saveBtn);
+    buttonContainer.appendChild(cancelBtn);
+    dialog.appendChild(buttonContainer);
+
+    const overlay = document.createElement('div');
+    overlay.id = 'dialog-overlay';
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 9999;
+    `;
+
+    document.body.appendChild(overlay);
+    document.body.appendChild(dialog);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     initializeTabs();
     initializeEditableHeader();
@@ -230,6 +314,8 @@ function switchTab(tabName) {
         updateAnalysis();
     } else if (tabName === 'filter') {
         updateFilterOptions();
+    } else if (tabName === 'notes') {
+        updateNotesTab();
     } else if (tabName === 'edit') {
         updateEditTaskList();
     }
@@ -242,6 +328,9 @@ function loadData() {
         const changed = normalizeDailyData();
         ensureTodayExists();
         if (changed) saveData();
+        if (typeof updateNotesFilterOptions === 'function') {
+            updateNotesFilterOptions();
+        }
         renderTable();
     });
 }
@@ -314,6 +403,90 @@ function getDayNotes(date) {
         }
     });
     return notes.length ? notes.join('\n') : 'No notes';
+}
+
+function updateNotesTab() {
+    const notesList = document.getElementById('notes-list');
+    if (!notesList) return;
+
+    notesList.innerHTML = '';
+
+    updateNotesFilterOptions();
+
+    const dates = Object.keys(dailyData).sort().reverse();
+    let hasNotes = false;
+
+    dates.forEach(date => {
+        if (notesFilter.date && notesFilter.date !== date) return;
+        tasks.forEach(task => {
+            if (notesFilter.task !== 'all' && notesFilter.task !== task) return;
+            const entry = getTaskEntry(date, task);
+            if (!entry.note || entry.note.trim() === '') return;
+            hasNotes = true;
+
+            const card = document.createElement('div');
+            card.className = 'note-card';
+
+            const meta = document.createElement('div');
+            meta.className = 'note-meta';
+            meta.textContent = `${formatDate(date)} · ${task}`;
+            card.appendChild(meta);
+
+            const expandBtn = document.createElement('button');
+            expandBtn.className = 'note-expand';
+            expandBtn.type = 'button';
+            expandBtn.title = 'Open note';
+            expandBtn.setAttribute('aria-label', 'Open note');
+            expandBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M14 3h7v7" stroke="currentColor" stroke-width="2"/><path d="M21 3l-9 9" stroke="currentColor" stroke-width="2"/><path d="M5 21h7v-7" stroke="currentColor" stroke-width="2"/><path d="M5 21l9-9" stroke="currentColor" stroke-width="2"/></svg>';
+            expandBtn.addEventListener('click', () => {
+                showNoteViewDialog(`${formatDate(date)} · ${task}`, date, task, entry.note);
+            });
+            card.appendChild(expandBtn);
+
+            const textarea = document.createElement('textarea');
+            textarea.className = 'note-textarea';
+            textarea.value = entry.note;
+            textarea.addEventListener('blur', () => {
+                const updated = textarea.value.trim();
+                setTaskEntry(date, task, entry.done, updated);
+                saveData();
+                renderTable();
+                if (updated === '') updateNotesTab();
+            });
+            card.appendChild(textarea);
+
+            notesList.appendChild(card);
+        });
+    });
+
+    if (!hasNotes) {
+        const empty = document.createElement('div');
+        empty.className = 'notes-empty';
+        empty.textContent = 'No notes yet.';
+        notesList.appendChild(empty);
+    }
+}
+
+function updateNotesFilterOptions() {
+    const select = document.getElementById('notes-filter-task');
+    if (!select) return;
+
+    const current = notesFilter.task || 'all';
+    select.innerHTML = '';
+
+    const allOption = document.createElement('option');
+    allOption.value = 'all';
+    allOption.textContent = 'All tasks';
+    select.appendChild(allOption);
+
+    tasks.forEach(task => {
+        const option = document.createElement('option');
+        option.value = task;
+        option.textContent = task;
+        select.appendChild(option);
+    });
+
+    select.value = current;
 }
 
 function getTodayDate() {
@@ -449,6 +622,33 @@ function setupEventListeners() {
     document.getElementById('min-completion').addEventListener('input', (e) => {
         document.getElementById('min-completion-value').textContent = e.target.value + '%';
     });
+
+    const notesDate = document.getElementById('notes-filter-date');
+    const notesTask = document.getElementById('notes-filter-task');
+    const notesClear = document.getElementById('notes-clear-filter');
+
+    if (notesDate) {
+        notesDate.addEventListener('change', () => {
+            notesFilter.date = notesDate.value;
+            updateNotesTab();
+        });
+    }
+
+    if (notesTask) {
+        notesTask.addEventListener('change', () => {
+            notesFilter.task = notesTask.value || 'all';
+            updateNotesTab();
+        });
+    }
+
+    if (notesClear) {
+        notesClear.addEventListener('click', () => {
+            notesFilter = { date: '', task: 'all' };
+            if (notesDate) notesDate.value = '';
+            if (notesTask) notesTask.value = 'all';
+            updateNotesTab();
+        });
+    }
 }
 
 function addNewTask() {
@@ -466,6 +666,7 @@ function addNewTask() {
         saveData();
         renderTable();
         updateEditTaskList();
+        updateNotesFilterOptions();
     }
 }
 
@@ -505,6 +706,7 @@ function deleteTask(index) {
             saveData();
             renderTable();
             updateEditTaskList();
+            updateNotesFilterOptions();
         }
     });
 }
@@ -531,6 +733,7 @@ function saveTaskChanges() {
     saveData();
     renderTable();
     showDialog('Tasks updated successfully!');
+    updateNotesFilterOptions();
 }
 
 function clearAllData() {

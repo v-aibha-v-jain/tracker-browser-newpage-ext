@@ -134,6 +134,7 @@
         <button class="tab-btn active" data-tab="main">Main</button>
         <button class="tab-btn" data-tab="analysis">Analysis</button>
         <button class="tab-btn" data-tab="filter">Filter</button>
+        <button class="tab-btn" data-tab="notes">Notes</button>
         <button class="tab-btn" data-tab="edit">Edit</button>
       </nav>
 
@@ -204,6 +205,22 @@
           </button>
           <button id="reset-filter-btn" class="btn secondary">Reset</button>
         </div>
+      </div>
+
+      <div id="notes-tab" class="tab-content">
+        <h2>Notes</h2>
+        <div class="notes-filters">
+          <div class="notes-filter-item">
+            <label for="notes-filter-date">Date</label>
+            <input type="date" id="notes-filter-date" />
+          </div>
+          <div class="notes-filter-item">
+            <label for="notes-filter-task">Task</label>
+            <select id="notes-filter-task"></select>
+          </div>
+          <button id="notes-clear-filter" class="btn secondary">Clear</button>
+        </div>
+        <div id="notes-list" class="notes-section"></div>
       </div>
 
       <div id="edit-tab" class="tab-content">
