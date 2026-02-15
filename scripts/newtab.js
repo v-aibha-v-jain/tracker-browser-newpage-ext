@@ -264,9 +264,14 @@ function initializeEditableHeader() {
     const subtitleEl = document.getElementById('editable-subtitle');
     if (!titleEl || !subtitleEl) return;
 
+    const setPageTitle = (title) => {
+        document.title = title && title.trim() ? title.trim() : 'Task Tracker';
+    };
+
     chrome.storage.local.get(['headerTitle', 'headerSubtitle'], (result) => {
         titleEl.textContent = result.headerTitle || 'Task Tracker';
         subtitleEl.textContent = result.headerSubtitle || 'Track your daily habits';
+        setPageTitle(titleEl.textContent);
     });
 
     const saveHeader = () => {
@@ -275,6 +280,7 @@ function initializeEditableHeader() {
         titleEl.textContent = headerTitle;
         subtitleEl.textContent = headerSubtitle;
         chrome.storage.local.set({ headerTitle, headerSubtitle });
+        setPageTitle(headerTitle);
     };
 
     [titleEl, subtitleEl].forEach(el => {
