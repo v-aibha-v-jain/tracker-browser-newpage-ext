@@ -1,0 +1,220 @@
+.custom-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border: 2px solid #000000;
+    padding: 25px;
+    border-radius: 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10000;
+    min-width: 300px;
+    max-width: 500px;
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.custom-dialog.note-dialog {
+    min-width: 320px;
+    max-width: 520px;
+}
+
+.custom-dialog.note-view-dialog {
+    min-width: 75vw;
+    max-width: 90vw;
+    max-height: 70vh;
+    text-align: left;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.custom-dialog.filtered-table-dialog {
+    min-width: 80vw;
+    max-width: 95vw;
+    max-height: 85vh;
+    text-align: left;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow: hidden;
+}
+
+.dialog-message {
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #000000;
+    line-height: 1.5;
+}
+
+.note-dialog .dialog-message {
+    margin-bottom: 14px;
+}
+
+.dialog-header {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #666666;
+}
+
+.filtered-table-dialog .dialog-header {
+    font-size: 16px;
+    font-weight: 600;
+    color: #000000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+.dialog-textarea {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #000000;
+    resize: vertical;
+    font-size: 13px;
+}
+
+.note-view-dialog .dialog-textarea {
+    color: #000000;
+    background: #ffffff;
+}
+
+.dialog-table-container {
+    overflow: auto;
+    flex: 1;
+}
+
+.dialog-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.note-dialog .dialog-buttons {
+    margin-top: 16px;
+}
+
+.note-view-dialog .dialog-buttons,
+.filtered-table-dialog .dialog-buttons {
+    justify-content: flex-end;
+}
+
+.dialog-btn {
+    padding: 10px 25px;
+    border: 2px solid #000000;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.dialog-btn.primary {
+    background: #000000;
+    color: white;
+}
+
+.dialog-btn.secondary {
+    background: white;
+    color: #000000;
+}
+
+.dialog-btn.cancel {
+    margin-left: 8px;
+}
+
+.dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+}
+
+.filtered-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.filtered-table thead th {
+    padding: 12px;
+    border: 1px solid #ddd;
+    background: #ffffff;
+    font-weight: 600;
+}
+
+.filtered-table thead th.date-column {
+    text-align: left;
+}
+
+.filtered-table thead th:not(.date-column):not(.consistency-label) {
+    text-align: center;
+}
+
+.filtered-table thead th.done-column {
+    background: #764ba2;
+    color: white;
+}
+
+.filtered-table .consistency-row th {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    background: #f8f9fa;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.filtered-table .consistency-row th.consistency-label {
+    text-align: left;
+}
+
+.filtered-table .consistency-row th:not(.consistency-label) {
+    text-align: center;
+}
+
+.filtered-table tbody tr:nth-child(even) {
+    background: #fafbfc;
+}
+
+.filtered-table tbody tr:nth-child(odd) {
+    background: #ffffff;
+}
+
+.filtered-table tbody td {
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+.filtered-table tbody td.date-column {
+    font-weight: 500;
+}
+
+.filtered-table tbody td:not(.date-column):not(.completion-cell) {
+    text-align: center;
+}
+
+.filtered-table tbody td.completion-cell {
+    text-align: center;
+    font-weight: 600;
+    color: #764ba2;
+}
+
+.filtered-table tbody input[type="checkbox"] {
+    cursor: default;
+}
+
+.no-filter-results {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+.done-header-cell {
+    background: #764ba2;
+}

@@ -14,35 +14,20 @@ export function showDialog(message, type = 'info', callback = null) {
 
     const dialog = document.createElement('div');
     dialog.id = 'custom-dialog';
-    dialog.style.cssText = `
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: white;
-        border: 2px solid #000000;
-        padding: 25px;
-        border-radius: 0;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        z-index: 10000;
-        min-width: 300px;
-        max-width: 500px;
-        text-align: center;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    `;
+    dialog.className = 'custom-dialog';
 
     const messageEl = document.createElement('p');
+    messageEl.className = 'dialog-message';
     messageEl.textContent = message;
-    messageEl.style.cssText = 'margin-bottom: 20px; font-size: 14px; color: #000000; line-height: 1.5;';
     dialog.appendChild(messageEl);
 
     const buttonContainer = document.createElement('div');
-    buttonContainer.style.cssText = 'display: flex; gap: 10px; justify-content: center;';
+    buttonContainer.className = 'dialog-buttons';
 
     if (type === 'confirm') {
         const yesBtn = document.createElement('button');
+        yesBtn.className = 'dialog-btn primary';
         yesBtn.textContent = 'Yes';
-        yesBtn.style.cssText = 'padding: 10px 25px; background: #000000; color: white; border: 2px solid #000000; cursor: pointer; font-weight: 600; font-size: 13px;';
         yesBtn.addEventListener('click', () => {
             dialog.remove();
             document.getElementById('dialog-overlay').remove();
@@ -50,8 +35,8 @@ export function showDialog(message, type = 'info', callback = null) {
         });
 
         const noBtn = document.createElement('button');
+        noBtn.className = 'dialog-btn secondary';
         noBtn.textContent = 'No';
-        noBtn.style.cssText = 'padding: 10px 25px; background: white; color: #000000; border: 2px solid #000000; cursor: pointer; font-weight: 600; font-size: 13px;';
         noBtn.addEventListener('click', () => {
             dialog.remove();
             document.getElementById('dialog-overlay').remove();
@@ -62,8 +47,8 @@ export function showDialog(message, type = 'info', callback = null) {
         buttonContainer.appendChild(noBtn);
     } else {
         const okBtn = document.createElement('button');
+        okBtn.className = 'dialog-btn primary';
         okBtn.textContent = 'OK';
-        okBtn.style.cssText = 'padding: 10px 25px; background: #000000; color: white; border: 2px solid #000000; cursor: pointer; font-weight: 600; font-size: 13px;';
         okBtn.addEventListener('click', () => {
             dialog.remove();
             document.getElementById('dialog-overlay').remove();
@@ -76,15 +61,7 @@ export function showDialog(message, type = 'info', callback = null) {
 
     const overlay = document.createElement('div');
     overlay.id = 'dialog-overlay';
-    overlay.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.3);
-        z-index: 9999;
-    `;
+    overlay.className = 'dialog-overlay';
 
     document.body.appendChild(overlay);
     document.body.appendChild(dialog);
@@ -95,40 +72,25 @@ export function showNoteDialog(message, initialNote, callback) {
 
     const dialog = document.createElement('div');
     dialog.id = 'custom-dialog';
-    dialog.style.cssText = `
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: white;
-        border: 2px solid #000000;
-        padding: 25px;
-        border-radius: 0;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        z-index: 10000;
-        min-width: 320px;
-        max-width: 520px;
-        text-align: center;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    `;
+    dialog.className = 'custom-dialog note-dialog';
 
     const messageEl = document.createElement('p');
+    messageEl.className = 'dialog-message';
     messageEl.textContent = message;
-    messageEl.style.cssText = 'margin-bottom: 14px; font-size: 14px; color: #000000; line-height: 1.5;';
     dialog.appendChild(messageEl);
 
     const textarea = document.createElement('textarea');
+    textarea.className = 'dialog-textarea';
     textarea.value = initialNote || '';
     textarea.rows = 4;
-    textarea.style.cssText = 'width: 100%; padding: 10px; border: 2px solid #000000; resize: vertical; font-size: 13px;';
     dialog.appendChild(textarea);
 
     const buttonContainer = document.createElement('div');
-    buttonContainer.style.cssText = 'display: flex; gap: 10px; justify-content: center; margin-top: 16px;';
+    buttonContainer.className = 'dialog-buttons';
 
     const saveBtn = document.createElement('button');
+    saveBtn.className = 'dialog-btn primary';
     saveBtn.textContent = 'Save';
-    saveBtn.style.cssText = 'padding: 10px 25px; background: #000000; color: white; border: 2px solid #000000; cursor: pointer; font-weight: 600; font-size: 13px;';
     saveBtn.addEventListener('click', () => {
         const note = textarea.value.trim();
         clearDialog();
@@ -136,8 +98,8 @@ export function showNoteDialog(message, initialNote, callback) {
     });
 
     const cancelBtn = document.createElement('button');
+    cancelBtn.className = 'dialog-btn secondary';
     cancelBtn.textContent = 'Cancel';
-    cancelBtn.style.cssText = 'padding: 10px 25px; background: white; color: #000000; border: 2px solid #000000; cursor: pointer; font-weight: 600; font-size: 13px;';
     cancelBtn.addEventListener('click', () => {
         clearDialog();
         callback(false, '');
@@ -149,15 +111,7 @@ export function showNoteDialog(message, initialNote, callback) {
 
     const overlay = document.createElement('div');
     overlay.id = 'dialog-overlay';
-    overlay.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.3);
-        z-index: 9999;
-    `;
+    overlay.className = 'dialog-overlay';
 
     document.body.appendChild(overlay);
     document.body.appendChild(dialog);
@@ -168,44 +122,25 @@ export function showNoteViewDialog(title, date, task, note) {
 
     const dialog = document.createElement('div');
     dialog.id = 'custom-dialog';
-    dialog.style.cssText = `
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: white;
-        border: 2px solid #000000;
-        padding: 20px;
-        border-radius: 0;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        z-index: 10000;
-        min-width: 75vw;
-        max-width: 90vw;
-        max-height: 70vh;
-        text-align: left;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-    `;
+    dialog.className = 'custom-dialog note-view-dialog';
 
     const header = document.createElement('div');
-    header.style.cssText = 'font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; color: #666666;';
+    header.className = 'dialog-header';
     header.textContent = title;
     dialog.appendChild(header);
 
     const content = document.createElement('textarea');
+    content.className = 'dialog-textarea';
     content.value = note || '';
     content.rows = 10;
-    content.style.cssText = 'width: 100%; border: 2px solid #000000; padding: 10px; resize: vertical; font-size: 13px; color: #000000; background: #ffffff;';
     dialog.appendChild(content);
 
     const buttonContainer = document.createElement('div');
-    buttonContainer.style.cssText = 'display: flex; justify-content: flex-end;';
+    buttonContainer.className = 'dialog-buttons';
 
     const saveBtn = document.createElement('button');
+    saveBtn.className = 'dialog-btn primary';
     saveBtn.textContent = 'Save';
-    saveBtn.style.cssText = 'padding: 10px 25px; background: #000000; color: white; border: 2px solid #000000; cursor: pointer; font-weight: 600; font-size: 13px;';
     saveBtn.addEventListener('click', () => {
         const updated = content.value.trim();
         setTaskEntry(date, task, getTaskEntry(date, task).done, updated);
@@ -216,8 +151,8 @@ export function showNoteViewDialog(title, date, task, note) {
     });
 
     const cancelBtn = document.createElement('button');
+    cancelBtn.className = 'dialog-btn secondary cancel';
     cancelBtn.textContent = 'Cancel';
-    cancelBtn.style.cssText = 'padding: 10px 25px; background: white; color: #000000; border: 2px solid #000000; cursor: pointer; font-weight: 600; font-size: 13px; margin-left: 8px;';
     cancelBtn.addEventListener('click', () => {
         clearDialog();
     });
@@ -228,15 +163,45 @@ export function showNoteViewDialog(title, date, task, note) {
 
     const overlay = document.createElement('div');
     overlay.id = 'dialog-overlay';
-    overlay.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.3);
-        z-index: 9999;
-    `;
+    overlay.className = 'dialog-overlay';
+
+    document.body.appendChild(overlay);
+    document.body.appendChild(dialog);
+}
+
+export function showFilteredTableDialog(content) {
+    clearDialog();
+
+    const dialog = document.createElement('div');
+    dialog.id = 'custom-dialog';
+    dialog.className = 'custom-dialog filtered-table-dialog';
+
+    const header = document.createElement('div');
+    header.className = 'dialog-header';
+    header.innerHTML = '<span>Filtered Results</span>';
+    dialog.appendChild(header);
+
+    const tableContainer = document.createElement('div');
+    tableContainer.className = 'dialog-table-container';
+    tableContainer.innerHTML = content;
+    dialog.appendChild(tableContainer);
+
+    const buttonContainer = document.createElement('div');
+    buttonContainer.className = 'dialog-buttons';
+
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'dialog-btn primary';
+    closeBtn.textContent = 'Close';
+    closeBtn.addEventListener('click', () => {
+        clearDialog();
+    });
+
+    buttonContainer.appendChild(closeBtn);
+    dialog.appendChild(buttonContainer);
+
+    const overlay = document.createElement('div');
+    overlay.id = 'dialog-overlay';
+    overlay.className = 'dialog-overlay';
 
     document.body.appendChild(overlay);
     document.body.appendChild(dialog);

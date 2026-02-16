@@ -1,6 +1,6 @@
 import { state } from './state.js';
-import { renderTable } from './table.js';
-import { showDialog } from './dialogs.js';
+import { generateFilteredTableHTML } from './table.js';
+import { showFilteredTableDialog } from './dialogs.js';
 
 export function updateFilterOptions() {
     const taskFilterList = document.getElementById('task-filter-list');
@@ -26,7 +26,19 @@ export function applyFilter() {
     const endDate = document.getElementById('filter-end-date').value;
     const minCompletion = parseInt(document.getElementById('min-completion').value);
 
-    showDialog('Filter functionality coming soon!');
+    const selectedTasks = Array.from(
+        document.querySelectorAll('#task-filter-list input[type="checkbox"]:checked')
+    ).map(cb => cb.value);
+
+    const filterSettings = {
+        startDate,
+        endDate,
+        minCompletion,
+        selectedTasks
+    };
+
+    const tableHTML = generateFilteredTableHTML(filterSettings);
+    showFilteredTableDialog(tableHTML);
 }
 
 export function resetFilter() {
@@ -38,8 +50,6 @@ export function resetFilter() {
     document.querySelectorAll('#task-filter-list input[type="checkbox"]').forEach(cb => {
         cb.checked = true;
     });
-
-    renderTable();
 }
 
 export function setupFilterEventListeners() {
